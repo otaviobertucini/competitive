@@ -1,19 +1,63 @@
+//https://www.urionlinejudge.com.br/judge/en/problems/view/1211
+
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
-int main() {
+class TrieNode{
+public:
+    char data;
+    vector<TrieNode*> children;
+    int size(){return children.size();};
+};
 
-    int n, number, dig = 1;
-    //cin >> n;
-    cin >> number;
-    int aux = number/10;
-    while(aux != 0){
-        dig *= 10;
-        aux /= 10;
+void insertTrie(TrieNode* node, string number, int index, int* count){
+    for(int i = 0; i < node->size(); i++){
+        if(node->children.at(i)->data == number[index]){
+            insertTrie(node->children.at(i), number, index+1, count);
+            return;
+        }
     }
+    TrieNode* newTrie = new TrieNode;
+    newTrie->data = number[index];
+    node->children.push_back(newTrie);
+    (*count)++;
+    if(index < number.size()-1){
+        insertTrie(newTrie, number, index+1, count);
+    }
+    return;
+}
 
-    for(int i = 0; i < n-1; i++){}
+void printTrie(TrieNode* node, string res){
+    if(node->size() == 0){
+        res += node->data;
+        cout << res << endl;
+        return;
+    }
+    for(int i = 0; i < node->size(); i++){
+        res += node->data;
+        printTrie(node->children.at(i), res);
+    }
+    return;
+}
 
-    return 0;
+int main() {
+    int n, dig, count;
+    string number;
+    while(cin >> n){
+        count = 0;
+        TrieNode* root = new TrieNode;
+        root->data = '*';
+        cin >> number;
+        dig = number.size();
+        insertTrie(root, number, 0, &count);
+        for(int i = 0; i < n-1; i++){
+            cin >> number;
+            insertTrie(root, number, 0, &count);
+        }
+
+        cout << dig*n - count << endl;
+    }
 }
