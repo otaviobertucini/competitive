@@ -1,11 +1,14 @@
 def main():
     print("Type the proposition: ")
     txt = str(input())
+    txt = txt.replace(" ", "")
     complete(txt)
 
 def complete(txt):
     txt = negative(txt)
-    txt = conjunction(txt)
+    txt = connectives(txt, "&")
+    txt = connectives(txt, "|")
+    txt = connectives(txt, "-")    
     print(txt)
 
 def negative(txt):
@@ -19,10 +22,10 @@ def negative(txt):
         txt_len = len(txt)
     return txt
 
-def conjunction(txt):
+def connectives(txt, char):
     i = len(txt) - 1
     while i > -1:
-        if(txt[i] == "&"):
+        if(txt[i] == char):
             txt = insert_par(txt, find_end(txt, i, -1), find_end(txt, i, 1)+1)
         i -= 1
     return txt
@@ -47,7 +50,7 @@ def find_end(txt, i, sum):
             par_queue.append(open)
         elif(txt[i] == close):
             par_queue.pop()
-        if txt[i] in ["&", "v"] and len(par_queue) == 0:
+        if txt[i] in ["&", "|", "-"] and len(par_queue) == 0:
             return i + sum*-1
     return i
 
