@@ -9,7 +9,7 @@ int larg(vector<int>* vec){
     int index, large = -1;
     for(int i = 0; i < vec->size(); i++){
         int a = vec->at(i);
-        if(a > large){
+        if(a >= large){
             large = a;
             index = i;
         }
@@ -26,17 +26,17 @@ int main() {
 
     for(int i = 0; i < q; i++){
         cin >> a >> b;
-        vector<int> qtd(8, 0);
-
-        for(int j = a; j < b-a+1; j++){
-            qtd[notes[j]-1]++;
-        }
-        int n = larg(&qtd) + 1;
+        vector<int> qtd(9, 0);
 
         for(int j = a; j <= b; j++){
-            notes[i] += n;
-            if(notes[i] > 8){
-                notes[i] -= 9;
+            qtd[notes[j]]++;
+        }
+        int n = larg(&qtd);
+
+        for(int j = a; j <= b; j++){
+            notes[j] += n;
+            if(notes[j] > 8){
+                notes[j] -= 9;
             }
         }
     }
