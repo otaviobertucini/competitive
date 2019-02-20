@@ -28,31 +28,34 @@ int main() {
 
     int n, l, c, total = 1, k = 1;
     cin >> n >> l;
-    vector<int> nums(n);
+    vector<int> nums;
 
     for(int i = 0; i < n; i++){
         cin >> c;
-        total *= c;
         nums.push_back(c);
     }
 
-    int lcm = total / gcd(&nums);
+    int gcdr = gcd(&nums);
+
+    int res = nums[0];
+    for(int i = 1; i < nums.size(); i++){
+        int numi = nums[i];
+        res = (res*numi)/recursive_gcd(res, numi);
+    }
+
+    int lcm;
+    if(nums.size() <= 2){
+        lcm = res;
+    }
+    else{
+        lcm = res / gcdr;
+    }
 
     int x = 0;
     int i = 1, big = -1, n_big;
     while(i <= l){
         x = (i*lcm)/recursive_gcd(i, lcm);
-        // if(x > l){
-        //     break;
-        // }
-        // int x_sum = x;
-        // while(x_sum <= l){
-        //     x_sum += x;
-        // }
-        // if(x_sum > l){
-        //     x_sum -= x;
-        // }
-        if(x > big){
+        if(x > big && x <= l){
             big = x;
             n_big = i;
         }
