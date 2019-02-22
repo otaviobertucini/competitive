@@ -15,10 +15,12 @@ int recursive_gcd(int a, int b){
 int gcd(vector<int>* nums){
     int res = nums->at(0);
     for(int i = 1; i < nums->size(); i++){
-        if(res == 1){
+        int numi = nums->at(i);
+        if(res == 1 || numi == 1){
             return res;
         }
-        res = recursive_gcd(res, nums->at(i));
+        cout << i << endl;
+        res = recursive_gcd(res, numi);
     }
 
     return res;
@@ -27,8 +29,9 @@ int gcd(vector<int>* nums){
 int main() {
 
     int n, l, c, total = 1, k = 1;
-    cin >> n >> l;
     vector<int> nums;
+    cin >> n >> l;
+    nums.reserve(n);
 
     for(int i = 0; i < n; i++){
         cin >> c;
