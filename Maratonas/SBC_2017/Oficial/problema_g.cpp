@@ -2,26 +2,19 @@
 
 #include <iostream>
 
-/*TODO: criar uma função recursiva para analisar os resultados.
-OBS: não é a resposta do programa! é só para visualizar.
-*/
-
 using namespace std;
 
-void generate(int t, int m, int n, int i, int* count, int tam = 0, int str = 0){
-    str *= 10;
-    str += i;
+void generate(int t, int m, int n, int i, int* count, int tam = 0){
     tam++;
     if(tam == t){
         (*count)++;
-        cout << str << endl;
         return;
     }
     if(i + 1 <= n){
-        generate(t, m, n, i+1, count, tam, str);
+        generate(t, m, n, i+1, count, tam);
     }
     if(i - 1 >= m){
-        generate(t, m, n, i-1, count, tam, str);
+        generate(t, m, n, i-1, count, tam);
     }
 }
 
@@ -30,11 +23,15 @@ int main() {
     int t, m, n;
 
     cin >> t >> m >> n;
-    int count = 0;
+    int count = 0, k = m;
 
-    for(int i = m; i <= n; i++){
-        generate(t, m, n, i, &count, 0, 0);
-        cout << "***********" << endl;
+    for(int i = 0; i < (n-m+1)/2; i++, k++){
+        cout << i << endl;
+        generate(t, m, n, k, &count, 0);
+    }
+    count *= 2;
+    if((n-m+1) % 2 != 0){
+        generate(t, m, n, k, &count, 0);
     }
 
     cout << count << endl;
